@@ -80,7 +80,7 @@ a:hover .arrow{transform:translate(2px,-2px)}
 .card-qs{background:#07142A;border:2px solid #2FC9E8;color:#E7F4FB;font-family:"Chakra Petch"}
 .card-qs h3{font-family:"Chakra Petch";font-weight:700;text-transform:uppercase}
 .card-qs .kind{color:#2FC9E8}
-.card-gg{background:#F1E9DA;color:#4B5266;font-family:"Zen Maru Gothic"}
+.card-gg{background:#F1E9DA url("assets/gg-sand-bg.webp") center/cover;color:#4B5266;font-family:"Zen Maru Gothic"}
 .card-gg h3{font-family:"Zen Loop";font-weight:400;font-size:2rem;line-height:1}
 .card-gg .kind{color:#6F8D68}
 .card-ax{background:linear-gradient(160deg,#1B3C6E,#2A62A6);color:#EAF1FB}
@@ -161,9 +161,9 @@ figcaption{font-size:.88rem;color:var(--soft);margin-top:8px}
 .qs .docs a{color:var(--label)}
 
 /* ===================== GARDENGROWN: raked sand ===================== */
-.gg{--fg:#454B5E;--soft:#5E6475;--label:#5E7F57;--slate:#5D6681;--sage:#A9C9A0;--peach:#F2C9A8;--focus:#5D6681;background:#EFE6D5;font-family:"Zen Maru Gothic",sans-serif}
-.gg::before{content:"";position:absolute;inset:0;background:url("assets/gg-sand-tile.webp") 0 0/340px 340px repeat;opacity:.22;z-index:0}
-.gg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(239,230,213,.75),rgba(239,230,213,.25) 70%);z-index:0}
+.gg{--fg:#454B5E;--soft:#5E6475;--label:#5E7F57;--slate:#5D6681;--sage:#A9C9A0;--peach:#F2C9A8;--focus:#5D6681;background:#EFE6D5;font-family:"Zen Maru Gothic",sans-serif;clip-path:inset(0)}
+.gg-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:#EFE6D5 url("assets/gg-sand-bg.webp") center/cover no-repeat}
+.gg-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(243,236,224,.55),rgba(243,236,224,.12) 75%)}
 .leaf{position:absolute;z-index:0;pointer-events:none;width:clamp(150px,22vw,300px);opacity:.9;transform-origin:50% 100%;animation:sway 7s ease-in-out infinite alternate}
 .leaf.tr{top:-30px;right:-40px;transform:rotate(200deg);animation-name:sway2}
 .leaf.bl{bottom:-20px;left:-50px;animation-duration:8.5s}
@@ -258,7 +258,7 @@ footer small{display:block;margin-top:64px;color:#B9B1CC;font-size:.85rem}
 /* ===================== Fade stack: sections slide over each other ===================== */
 .stack-on .stackp{position:sticky}
 .stack-on .stackp:not(:first-of-type),.stack-on main>.stackp{border-radius:28px 28px 0 0;margin-top:-28px;box-shadow:0 -24px 60px rgba(0,0,0,.38)}
-.stack-on .qs{clip-path:inset(0 round 28px 28px 0 0)}
+.stack-on .qs,.stack-on .gg{clip-path:inset(0 round 28px 28px 0 0)}
 .stack-on footer{z-index:9}
 .dim{position:absolute;inset:0;background:#05030B;opacity:0;pointer-events:none;z-index:8;will-change:opacity}
 .stackp>.wrap{will-change:opacity,transform}
@@ -430,6 +430,7 @@ footer small{display:block;margin-top:64px;color:#B9B1CC;font-size:.85rem}
 
 <!-- ================= GARDENGROWN ================= -->
 <section class="world gg" id="gardengrown" aria-labelledby="gg-title">
+  <div class="gg-bg" aria-hidden="true"></div>
   <svg class="leaf tr" viewBox="0 0 200 260" aria-hidden="true"><g fill="none"><path d="M100 258 C98 190 104 120 96 10" stroke="#8DB386" stroke-width="3"/></g><g fill="#9DC296"><ellipse cx="72" cy="200" rx="34" ry="14" transform="rotate(-35 72 200)" opacity=".75"/><ellipse cx="130" cy="170" rx="36" ry="14" transform="rotate(30 130 170)" opacity=".6"/><ellipse cx="70" cy="130" rx="32" ry="13" transform="rotate(-40 70 130)" opacity=".7"/><ellipse cx="128" cy="98" rx="30" ry="12" transform="rotate(35 128 98)" opacity=".55"/><ellipse cx="80" cy="62" rx="26" ry="11" transform="rotate(-45 80 62)" opacity=".65"/><ellipse cx="114" cy="34" rx="22" ry="9" transform="rotate(40 114 34)" opacity=".5"/></g></svg>
   <svg class="leaf bl" viewBox="0 0 200 260" aria-hidden="true"><g fill="none"><path d="M100 258 C96 190 108 120 100 12" stroke="#8DB386" stroke-width="3"/></g><g fill="#A9CBA1"><ellipse cx="68" cy="196" rx="38" ry="15" transform="rotate(-30 68 196)" opacity=".7"/><ellipse cx="134" cy="160" rx="38" ry="15" transform="rotate(32 134 160)" opacity=".6"/><ellipse cx="68" cy="118" rx="32" ry="13" transform="rotate(-38 68 118)" opacity=".7"/><ellipse cx="130" cy="84" rx="28" ry="11" transform="rotate(36 130 84)" opacity=".55"/><ellipse cx="88" cy="44" rx="22" ry="9" transform="rotate(-42 88 44)" opacity=".6"/></g></svg>
   <svg class="leaf mr" viewBox="0 0 200 260" aria-hidden="true"><g fill="none"><path d="M100 258 C100 180 102 110 98 20" stroke="#8DB386" stroke-width="3"/></g><g fill="#9DC296"><ellipse cx="70" cy="190" rx="34" ry="13" transform="rotate(-32 70 190)" opacity=".6"/><ellipse cx="132" cy="140" rx="34" ry="13" transform="rotate(32 132 140)" opacity=".55"/><ellipse cx="74" cy="90" rx="28" ry="11" transform="rotate(-38 74 90)" opacity=".6"/></g></svg>
