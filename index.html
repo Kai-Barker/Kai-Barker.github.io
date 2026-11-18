@@ -255,6 +255,13 @@ footer h2 span{display:block;color:var(--cyan)}
 footer .mail{display:inline-block;margin:28px 0 8px;font-family:"Unbounded";font-weight:700;font-size:clamp(1.05rem,3.4vw,2.2rem);color:var(--cyan);overflow-wrap:anywhere}
 footer small{display:block;margin-top:64px;color:#B9B1CC;font-size:.85rem}
 
+/* ===================== Fade stack: sections slide over each other ===================== */
+.stack-on .stackp{position:sticky}
+.stack-on .stackp:not(:first-of-type),.stack-on main>.stackp{border-radius:28px 28px 0 0;margin-top:-28px;box-shadow:0 -24px 60px rgba(0,0,0,.38)}
+.stack-on .qs{clip-path:inset(0 round 28px 28px 0 0)}
+.stack-on footer{z-index:9}
+.dim{position:absolute;inset:0;background:#05030B;opacity:0;pointer-events:none;z-index:8;will-change:opacity}
+.stackp>.wrap{will-change:opacity,transform}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -699,5 +706,47 @@ footer small{display:block;margin-top:64px;color:#B9B1CC;font-size:.85rem}
     <small>© 2026 Kai Barker</small>
   </div>
 </footer>
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  var panels = [document.querySelector('header.intro'), document.getElementById('questack'), document.getElementById('gardengrown'), document.getElementById('artifax'), document.querySelector('section.skills')].filter(Boolean);
+  document.documentElement.classList.add('stack-on');
+  panels.forEach(function(p, i){
+    p.classList.add('stackp');
+    p.style.zIndex = i + 1;
+    var d = document.createElement('div'); d.className = 'dim'; d.setAttribute('aria-hidden','true'); p.appendChild(d);
+    p._dim = d; p._wraps = p.querySelectorAll(':scope > .wrap');
+  });
+  function setTops(){
+    var vh = window.innerHeight;
+    panels.forEach(function(p){ p.style.top = Math.min(0, vh - p.offsetHeight) + 'px'; });
+  }
+  var ticking = false;
+  function frame(){
+    ticking = false;
+    var vh = window.innerHeight;
+    for (var i = 0; i < panels.length; i++){
+      var p = panels[i], next = panels[i+1];
+      // how far the next panel has slid over this one (0 to 1)
+      var cover = 0;
+      if (next){ cover = (vh - next.getBoundingClientRect().top) / vh; cover = Math.max(0, Math.min(1, cover)); }
+      // how far this panel has risen into view (0 to 1), for a gentle fade in
+      var top = p.getBoundingClientRect().top;
+      var enter = i === 0 ? 1 : Math.max(0, Math.min(1, (vh - top) / (vh * 0.55)));
+      p._dim.style.opacity = (cover * 0.6).toFixed(3);
+      var op = (Math.min(enter * 0.75 + 0.25, 1) * (1 - cover * 0.55)).toFixed(3);
+      var tf = 'translateY(' + ((1 - enter) * 40 - cover * 30).toFixed(1) + 'px)';
+      for (var w = 0; w < p._wraps.length; w++){ p._wraps[w].style.opacity = op; p._wraps[w].style.transform = tf; }
+    }
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(frame); } }
+  setTops(); frame();
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', function(){ setTops(); onScroll(); });
+  window.addEventListener('load', function(){ setTops(); onScroll(); });
+  if ('ResizeObserver' in window){ var ro = new ResizeObserver(function(){ setTops(); onScroll(); }); panels.forEach(function(p){ ro.observe(p); }); }
+})();
+</script>
 </body>
 </html>
